@@ -106,7 +106,7 @@ namespace core3api.SignalR
             if (group == null)
             {
                 group = new Group(groupName);
-                _unitOfWork.MessageRepository.AddGroup(group);
+                _unitOfWork.MessageRepository.AddGroup(group); 
             }
 
             group.Connections.Add(connection);
