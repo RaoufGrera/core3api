@@ -1,4 +1,5 @@
-﻿using core3api.Model;
+﻿using core3api.Extensions;
+using core3api.Model;
 using core3api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +40,7 @@ namespace core3api.Controllers.v1
         [HttpGet("profile")]
         public IActionResult profile()
         {
-            var userName = User.Identity.Name;
+            var userName = User.GetUsername();
             var user = _userService.Profile(userName);
             if (user == null)
                 return StatusCode(500, "Internal server error:profile");
@@ -51,7 +52,7 @@ namespace core3api.Controllers.v1
         [HttpPost("edit")]
         public IActionResult edit([FromBody] VEdit data)
         {
-            var userName = User.Identity.Name;
+            var userName = User.GetUsername();
             var user = _userService.Edit(userName, data);
             if (user == null)
                return BadRequest();
@@ -67,7 +68,7 @@ namespace core3api.Controllers.v1
         {
             try
             {
-                var userName = User.Identity.Name;
+                var userName = User.GetUsername();
                 IFormCollection formCollection = await Request.ReadFormAsync();
                 if (formCollection == null)
                     return BadRequest();

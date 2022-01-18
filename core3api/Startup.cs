@@ -150,7 +150,7 @@ namespace core3api
 
 
              app.UseRouting();
-
+                
             app.UseAuthentication();
             app.UseAuthorization();
 

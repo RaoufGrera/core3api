@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace core3api.Extensions
@@ -6,7 +7,8 @@ namespace core3api.Extensions
     {
         public static string GetUsername(this ClaimsPrincipal user)
         {
-            return user.FindFirst(ClaimTypes.Name)?.Value;
+            var r = user.FindFirst(JwtRegisteredClaimNames.Name)?.Value;
+            return r;
         }
 
         public static int GetUserId(this ClaimsPrincipal user)

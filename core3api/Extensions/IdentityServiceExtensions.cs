@@ -30,7 +30,9 @@ namespace core3api.Extensions
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Secret));
 
-
+           //  ===== Add Jwt Authentication ========
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            services.Configure<FacebookAuthSettings>(config.GetSection(nameof(FacebookAuthSettings)));
 
             services.AddIdentityCore<AppUser>(opt =>
             {
@@ -69,6 +71,10 @@ namespace core3api.Extensions
                             return Task.CompletedTask;
                         }
                     };
+                }).AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = config["FacebookAuthSettings:AppId"];
+                    facebookOptions.AppSecret = config["FacebookAuthSettings:AppSecret"];
                 });
 
             services.AddAuthorization(opt =>

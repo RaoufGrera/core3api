@@ -101,7 +101,7 @@ namespace core3api.Services
             if (user == null)
             {
              //   var folderName = Path.Combine("StaticFiles", "Images");
-                var maleImagePath = "default-male.svg"; // Path.Combine(folderName,);
+                var maleImagePath = "_default-male.svg"; // Path.Combine(folderName,);
 
                 var appUser = new AppUser
                 {
@@ -211,6 +211,8 @@ namespace core3api.Services
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+               new Claim(JwtRegisteredClaimNames.Name, user.UserName),
+
             };
 
             var roles = await _mUserManager.GetRolesAsync(user);
