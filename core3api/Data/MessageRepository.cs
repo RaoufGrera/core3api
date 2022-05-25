@@ -54,10 +54,11 @@ namespace core3api.Data
 
         public async Task<Message> GetMessage(int id)
         {
+            var test = "S";
             return await _context.Messages
                 .Include(u => u.Sender)
                 .Include(u => u.Recipient)
-                .SingleOrDefaultAsync(x => x.Id == id);
+                .SingleOrDefaultAsync(x => x.Id == test);
         }
 
         public async Task<Group> GetMessageGroup(string groupName)
@@ -97,7 +98,7 @@ namespace core3api.Data
                         || m.Recipient.UserName == recipientUsername
                         && m.Sender.UserName == currentUsername && m.SenderDeleted == false
                 )
-                .MarkUnreadAsRead(currentUsername)
+             //   .MarkUnreadAsRead(currentUsername)
                 .OrderBy(m => m.MessageSent)
                 .ProjectTo<VMessage>(_mapper.ConfigurationProvider)
                 .ToListAsync();

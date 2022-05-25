@@ -1,0 +1,67 @@
+﻿version: '3.4'
+
+networks:
+  core3api-dev:
+    driver: bridge
+services:
+  reverse-proxy:
+    image: nginx:1.17.10
+    container_name: reverse_proxy_demo
+    depends_on:
+      - api
+      - next
+    volumes:
+      - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    networks:
+      - core3api-dev
+  next:
+    image: dist:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - core3api-dev
+  api:
+    image: api:latest
+    container_name: api
+    depends_on:
+      - "postgresql_database"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"
+    environment:
+      DB_CONNECTION_STRING: "host=postgresql_database;port=5432;database=TodoList;username=postgres;password=102030"
+    networks:
+      - core3api-dev
+  postgresql_database:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=102030
+      - POSTGRES_DB=TodoList
+    ports:
+      - "5433:5433"
+    restart: always
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    networks:
+      - core3api-dev
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=102030
+    ports:
+      - "5050:5050"
+    restart: always
+    volumes:
+      - pgadmin:/root/.pgamdin
+    networks:
+      - core3api-dev
+
+volumes:
+  database-data:
+  pgadmin:

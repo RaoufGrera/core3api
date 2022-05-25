@@ -18,10 +18,18 @@ namespace SystemData.Models
       //  public int Order { get; set; }
       //  public string Image { get; set; }
     }
-    public class Seeking : GeneralTable { }
-    public class Country : GeneralTable { }
+
+    public class Stamp : GeneralTable {  public string Image { get; set; }
+        public string Title { get; set; }
+    }
+
+
+   // public class Seeking : GeneralTable { }
+   // public class Country : GeneralTable { }
     public class Home : GeneralTable { }
 
+    public class Salary : GeneralTable { }
+    public class Book : GeneralTable { }
 
     public class Age : GeneralTable { }
     public class Height : GeneralTable { }
@@ -34,26 +42,26 @@ namespace SystemData.Models
     public class Havekids : GeneralTable { }
 
     public class Zodiac : GeneralTable { }
-    
-   
+     public class Personality : GeneralTable { }
 
 
     // Lifestyle
     public class FamilyValues : GeneralTable { }
     public class Relocate : GeneralTable { }
-    public class PolygamyOpinion : GeneralTable { }
+   // public class PolygamyOpinion : GeneralTable { }
     public class Driver : GeneralTable { }
     public class Smoking : GeneralTable { }
     public class Work : GeneralTable { }
-    public class WantKids : GeneralTable { }
+    // public class WantKids : GeneralTable { }
 
 
 
 
+     public class Hobbies : GeneralTable { public ICollection<UserHobbies> UserHobbies { get; set; } }
 
-    
 
-   // public class Hobbies : GeneralTable { public ICollection<UserHobbies> UserHobbies { get; set; } }
+
+    // public class Hobbies : GeneralTable { public ICollection<UserHobbies> UserHobbies { get; set; } }
 
 
 }

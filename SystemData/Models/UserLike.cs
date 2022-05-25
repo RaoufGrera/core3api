@@ -1,3 +1,5 @@
+using System;
+
 namespace SystemData.Models
 {
     public class UserLike
@@ -7,5 +9,6 @@ namespace SystemData.Models
 
         public AppUser LikedUser { get; set; }
         public long LikedUserId { get; set; }
+        public DateTime LikedDate { get; set; } = DateTime.UtcNow;
     }
 }

@@ -23,7 +23,10 @@ namespace core3api.Services
 {
     public interface IAuthService
     {
+
         Task<VUser> FacebookAuthFunc(string AccessToken);
+        Task<VUser> FBAuth(VUser AccessToken);
+
         Task<VUser> GmailAuthFunc(string AccessToken);
         Task<VUser> CreateToken(AppUser appUser);
 
@@ -74,6 +77,51 @@ namespace core3api.Services
 
             return objResult;
         }
+
+        public async Task<VUser> FBAuth(VUser vUser)
+        {
+
+            var faceId = "f" + vUser.Id.ToString();
+            var emailId = (vUser.Email.IsNullOrEmpty()) ? faceId : vUser.Email;
+            var user = await _mUserManager.FindByEmailAsync(emailId);
+
+            if (user == null)
+            {
+                //   var folderName = Path.Combine("StaticFiles", "Images");
+                var maleImagePath = "_default-male.svg"; // Path.Combine(folderName,);
+
+                var appUser = new AppUser
+                {
+
+                    Name = vUser.Name,
+                    GenderId = "male",
+                    Image = maleImagePath,
+
+                    Password = faceId,
+                    FacebookId = vUser.Id,
+                    Email = emailId,
+                    UserName = faceId,
+                    //  PictureUrl = userInfo.Picture.Data.Url
+                };
+
+                var result = await _mUserManager.CreateAsync(appUser, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8));
+
+                if (!result.Succeeded) return null;
+
+                //    await _context.User.AddAsync(new Customer { IdentityId = appUser.Id, Location = "", Locale = userInfo.Locale, Gender = userInfo.Gender });
+                //    await _context.SaveChangesAsync();
+                //
+            }
+
+            // generate the jwt for the local user...
+
+            var Objuser = await _mUserManager.FindByNameAsync(faceId);
+
+            var objResult = await CreateToken(Objuser);
+
+            return objResult;
+
+        }
         public async Task<VUser> FacebookAuthFunc(string AccessToken)
         {
         
@@ -90,12 +138,12 @@ namespace core3api.Services
                 }
           
             // 3. we've got a valid token so we can request user data from fb
-            var userInfoResponse = await Client.GetStringAsync($"https://graph.facebook.com/v12.0/me?fields=id,email,first_name,last_name,name,gender,locale,birthday,picture&access_token={AccessToken}");
+            var userInfoResponse = await Client.GetStringAsync($"https://graph.facebook.com/v12.0/me?fields=id,first_name&access_token={AccessToken}");
             var userInfo = JsonConvert.DeserializeObject<FacebookUserData>(userInfoResponse);
 
             // 4. ready to create the local user account (if necessary) and jwt
             var faceId = "f"+userInfo.Id.ToString();
-            var emailId = (userInfo.Email.IsNullOrEmpty()) ? faceId : userInfo.Email;
+            var emailId = faceId; //(userInfo.Email.IsNullOrEmpty()) ?: userInfo.Email;
             var user = await _mUserManager.FindByEmailAsync(emailId);
 
             if (user == null)
@@ -107,7 +155,7 @@ namespace core3api.Services
                 {
 
                     Name = userInfo.FirstName,
-                    GenderId = "male" ,
+                 //   GenderId = "male" ,
                     Image = maleImagePath,
 
                     Password = faceId,
@@ -137,6 +185,7 @@ namespace core3api.Services
 
         public async Task<VUser> GmailAuthFunc(string AccessToken)
         {
+            //                String r = generator.Next(0, 1000000).ToString("D6");
 
             GoogleUserOutputData serStatus = null;
 
@@ -168,14 +217,18 @@ namespace core3api.Services
             if (user == null)
             {
                 var pass = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8);
-                var maleImagePath = "default-male.svg"; // Path.Combine(folderName,);
+                var maleImagePath = "_default-male.svg"; // Path.Combine(folderName,);
 
                 var appUser = new AppUser
                 {
 
-
-                    GenderId = "male",
+                    //   GenderId = "male" ,
                     Image = maleImagePath,
+
+                  
+
+
+                    //GenderId = "male",
                     Name = serStatus.name,
                     GmailId = serStatus.id,
                     Email = serStatus.email,
@@ -225,7 +278,7 @@ namespace core3api.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
+                Expires =  DateTime.Now.ToUniversalTime().AddDays(7),
                 SigningCredentials = creds
             };
 
@@ -234,10 +287,16 @@ namespace core3api.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             var ttt = tokenHandler.WriteToken(token);
+
+            int likes = _context.Notifications.Count(p => p.AppUserId == user.Id && !p.IsRead && !p.Name.Contains("message"));
+            int messages = _context.Notifications.Count(p => p.AppUserId == user.Id && !p.IsRead && p.Name.Contains("message"));
             return new VUser
             {
+                Id = user.Id,
                 Message = "تم تسجيل الدخول بنجاح",
                 UserId = user.Id,
+                Likes = likes,
+                Messages = messages,
                 Name = user.Name,
                 UserName = user.UserName,
                 Token = ttt,
@@ -275,7 +334,7 @@ namespace core3api.Services
               claims: claims,
               
                 //expires: _jwtOptions.Expiration,
-                expires: DateTime.Now.AddDays(10),
+                expires: DateTime.Now.ToUniversalTime().AddDays(10),
 
                            signingCredentials : new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256)
 );

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SystemData;
 
+#nullable disable
+
 namespace SystemData.Migrations
 {
     [DbContext(typeof(SystemContext))]
@@ -15,16 +17,18 @@ namespace SystemData.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.12")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -39,15 +43,16 @@ namespace SystemData.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -62,7 +67,7 @@ namespace SystemData.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
@@ -83,7 +88,7 @@ namespace SystemData.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("AspNetUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
@@ -102,7 +107,7 @@ namespace SystemData.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("SystemData.Models.Age", b =>
@@ -125,8 +130,9 @@ namespace SystemData.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -146,15 +152,16 @@ namespace SystemData.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("SystemData.Models.AppUser", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("AboutMe")
                         .HasColumnType("text");
@@ -165,6 +172,9 @@ namespace SystemData.Migrations
                     b.Property<string>("AgeId")
                         .HasColumnType("text");
 
+                    b.Property<string>("BookId")
+                        .HasColumnType("text");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -173,7 +183,7 @@ namespace SystemData.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DriverId")
                         .HasColumnType("text");
@@ -194,13 +204,13 @@ namespace SystemData.Migrations
                     b.Property<string>("FamilyValuesId")
                         .HasColumnType("text");
 
+                    b.Property<string>("FcmToken")
+                        .HasColumnType("text");
+
                     b.Property<string>("GenderId")
                         .HasColumnType("text");
 
                     b.Property<string>("GmailId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("HavekidsId")
                         .HasColumnType("text");
 
                     b.Property<string>("HeightId")
@@ -213,7 +223,10 @@ namespace SystemData.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("LastActive")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("LikeCount")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -232,10 +245,16 @@ namespace SystemData.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<bool>("Online")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PersonalityId")
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
@@ -244,19 +263,13 @@ namespace SystemData.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PolygamyOpinionId")
-                        .HasColumnType("text");
-
                     b.Property<string>("Provider")
                         .HasColumnType("text");
 
                     b.Property<string>("RelationshipId")
                         .HasColumnType("text");
 
-                    b.Property<string>("RelocateId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SearchFor")
+                    b.Property<string>("SalaryId")
                         .HasColumnType("text");
 
                     b.Property<string>("SectorId")
@@ -265,8 +278,8 @@ namespace SystemData.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
-                    b.Property<string>("SeekingId")
-                        .HasColumnType("text");
+                    b.Property<int>("ShowCount")
+                        .HasColumnType("integer");
 
                     b.Property<string>("SmokingId")
                         .HasColumnType("text");
@@ -281,9 +294,6 @@ namespace SystemData.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<string>("WantKidsId")
-                        .HasColumnType("text");
-
                     b.Property<string>("WorkId")
                         .HasColumnType("text");
 
@@ -294,6 +304,8 @@ namespace SystemData.Migrations
 
                     b.HasIndex("AgeId");
 
+                    b.HasIndex("BookId");
+
                     b.HasIndex("CountryId");
 
                     b.HasIndex("DriverId");
@@ -303,8 +315,6 @@ namespace SystemData.Migrations
                     b.HasIndex("FamilyValuesId");
 
                     b.HasIndex("GenderId");
-
-                    b.HasIndex("HavekidsId");
 
                     b.HasIndex("HeightId");
 
@@ -317,25 +327,21 @@ namespace SystemData.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("PolygamyOpinionId");
+                    b.HasIndex("PersonalityId");
 
                     b.HasIndex("RelationshipId");
 
-                    b.HasIndex("RelocateId");
+                    b.HasIndex("SalaryId");
 
                     b.HasIndex("SectorId");
 
-                    b.HasIndex("SeekingId");
-
                     b.HasIndex("SmokingId");
-
-                    b.HasIndex("WantKidsId");
 
                     b.HasIndex("WorkId");
 
                     b.HasIndex("ZodiacId");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("SystemData.Models.AppUserRole", b =>
@@ -350,68 +356,23 @@ namespace SystemData.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("SystemData.Models.Car", b =>
+            modelBuilder.Entity("SystemData.Models.Book", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("AppUserId1")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CarDescription")
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<int>("CarModelId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("CarPrice")
-                        .IsRequired()
+                    b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int>("ColorId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("FlueId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsAvailble")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsRegistered")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsSold")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("PaymentMethodId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Rating")
+                    b.Property<string>("NameEn")
                         .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Views")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId1");
-
-                    b.ToTable("Car");
+                    b.ToTable("Book");
                 });
 
             modelBuilder.Entity("SystemData.Models.Connection", b =>
@@ -437,10 +398,16 @@ namespace SystemData.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("Color")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<string>("NameEn")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Short")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -496,31 +463,6 @@ namespace SystemData.Migrations
                     b.ToTable("FamilyValues");
                 });
 
-            modelBuilder.Entity("SystemData.Models.Favorite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("AppUserId1")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId1");
-
-                    b.HasIndex("CarId");
-
-                    b.ToTable("Favorite");
-                });
-
             modelBuilder.Entity("SystemData.Models.Gender", b =>
                 {
                     b.Property<string>("Id")
@@ -547,20 +489,30 @@ namespace SystemData.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("SystemData.Models.Havekids", b =>
+            modelBuilder.Entity("SystemData.Models.GroupMessages", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("NameEn")
-                        .HasColumnType("text");
+                    b.Property<long>("FirstUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("SecondUserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Havekids");
+                    b.HasIndex("FirstUserId");
+
+                    b.HasIndex("SecondUserId");
+
+                    b.ToTable("GroupMessages");
                 });
 
             modelBuilder.Entity("SystemData.Models.Height", b =>
@@ -577,6 +529,22 @@ namespace SystemData.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Height");
+                });
+
+            modelBuilder.Entity("SystemData.Models.Hobbies", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameEn")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Hobbies");
                 });
 
             modelBuilder.Entity("SystemData.Models.Home", b =>
@@ -597,49 +565,78 @@ namespace SystemData.Migrations
 
             modelBuilder.Entity("SystemData.Models.Message", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ArrivalDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
+                    b.Property<string>("CountChar")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("DateRead")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("GroupMessageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("GroupMessagesId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("LikeCount")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("MessageSent")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PublicMessageId")
+                        .HasColumnType("text");
 
                     b.Property<bool>("RecipientDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("RecipientId")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("RecipientId1")
+                    b.Property<long>("RecipientId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("RecipientUsername")
                         .HasColumnType("text");
 
+                    b.Property<string>("Secret")
+                        .HasColumnType("text");
+
                     b.Property<bool>("SenderDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("SenderId")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("SenderId1")
+                    b.Property<long>("SenderId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("SenderUsername")
                         .HasColumnType("text");
 
+                    b.Property<int>("ShowCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("StampId")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("RecipientId1");
+                    b.HasIndex("GroupMessagesId");
 
-                    b.HasIndex("SenderId1");
+                    b.HasIndex("PublicMessageId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.HasIndex("StampId");
 
                     b.ToTable("Messages");
                 });
@@ -648,14 +645,21 @@ namespace SystemData.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("AppUserId")
                         .HasColumnType("integer");
 
-                    b.Property<long?>("AppUserId1")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("AppUserId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsRead")
                         .HasColumnType("boolean");
@@ -664,45 +668,30 @@ namespace SystemData.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("ReadAt")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId1");
-
-                    b.ToTable("Notifications");
-                });
-
-            modelBuilder.Entity("SystemData.Models.Photo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("AppUserId1")
+                    b.Property<long?>("SourceId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("PublicId")
+                    b.Property<string>("SourceName")
                         .HasColumnType("text");
 
                     b.Property<string>("Url")
                         .HasColumnType("text");
 
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId1");
+                    b.HasIndex("AppUserId");
 
-                    b.ToTable("Photos");
+                    b.HasIndex("SourceId");
+
+                    b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("SystemData.Models.PolygamyOpinion", b =>
+            modelBuilder.Entity("SystemData.Models.Personality", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -715,7 +704,93 @@ namespace SystemData.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PolygamyOpinion");
+                    b.ToTable("Personality");
+                });
+
+            modelBuilder.Entity("SystemData.Models.PublicMessage", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ArrivalDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<int>("LikeCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("MessageSent")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("SenderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("SenderUsername")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ShowCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("StampId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SenderId");
+
+                    b.HasIndex("StampId");
+
+                    b.ToTable("PublicMessages");
+                });
+
+            modelBuilder.Entity("SystemData.Models.Question", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Ask")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("QuestoinSent")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("RecipientDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("RecipientId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("SenderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StampId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.HasIndex("StampId");
+
+                    b.ToTable("Question");
                 });
 
             modelBuilder.Entity("SystemData.Models.Relationship", b =>
@@ -734,7 +809,7 @@ namespace SystemData.Migrations
                     b.ToTable("Relationship");
                 });
 
-            modelBuilder.Entity("SystemData.Models.Relocate", b =>
+            modelBuilder.Entity("SystemData.Models.Salary", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -747,7 +822,7 @@ namespace SystemData.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Relocate");
+                    b.ToTable("Salary");
                 });
 
             modelBuilder.Entity("SystemData.Models.Sector", b =>
@@ -766,22 +841,6 @@ namespace SystemData.Migrations
                     b.ToTable("Sector");
                 });
 
-            modelBuilder.Entity("SystemData.Models.Seeking", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NameEn")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Seeking");
-                });
-
             modelBuilder.Entity("SystemData.Models.Smoking", b =>
                 {
                     b.Property<string>("Id")
@@ -798,24 +857,12 @@ namespace SystemData.Migrations
                     b.ToTable("Smoking");
                 });
 
-            modelBuilder.Entity("SystemData.Models.UserLike", b =>
-                {
-                    b.Property<long>("SourceUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("LikedUserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("SourceUserId", "LikedUserId");
-
-                    b.HasIndex("LikedUserId");
-
-                    b.ToTable("Likes");
-                });
-
-            modelBuilder.Entity("SystemData.Models.WantKids", b =>
+            modelBuilder.Entity("SystemData.Models.Stamp", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Image")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -824,9 +871,79 @@ namespace SystemData.Migrations
                     b.Property<string>("NameEn")
                         .HasColumnType("text");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.ToTable("WantKids");
+                    b.ToTable("Stamp");
+                });
+
+            modelBuilder.Entity("SystemData.Models.UserHobbies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("AppUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("HobbiesId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("HobbiesId");
+
+                    b.ToTable("UserHobbies");
+                });
+
+            modelBuilder.Entity("SystemData.Models.UserLike", b =>
+                {
+                    b.Property<long>("SourceUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("LikedUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("LikedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("SourceUserId", "LikedUserId");
+
+                    b.HasIndex("LikedUserId");
+
+                    b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("SystemData.Models.UserMessage", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Key")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MessageId")
+                        .HasColumnType("text");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserMessage");
                 });
 
             modelBuilder.Entity("SystemData.Models.Work", b =>
@@ -903,6 +1020,10 @@ namespace SystemData.Migrations
                         .WithMany()
                         .HasForeignKey("AgeId");
 
+                    b.HasOne("SystemData.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId");
+
                     b.HasOne("SystemData.Models.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
@@ -923,10 +1044,6 @@ namespace SystemData.Migrations
                         .WithMany()
                         .HasForeignKey("GenderId");
 
-                    b.HasOne("SystemData.Models.Havekids", "Havekids")
-                        .WithMany()
-                        .HasForeignKey("HavekidsId");
-
                     b.HasOne("SystemData.Models.Height", "Height")
                         .WithMany()
                         .HasForeignKey("HeightId");
@@ -935,33 +1052,25 @@ namespace SystemData.Migrations
                         .WithMany()
                         .HasForeignKey("HomeId");
 
-                    b.HasOne("SystemData.Models.PolygamyOpinion", "PolygamyOpinion")
+                    b.HasOne("SystemData.Models.Personality", "Personality")
                         .WithMany()
-                        .HasForeignKey("PolygamyOpinionId");
+                        .HasForeignKey("PersonalityId");
 
                     b.HasOne("SystemData.Models.Relationship", "Relationship")
                         .WithMany()
                         .HasForeignKey("RelationshipId");
 
-                    b.HasOne("SystemData.Models.Relocate", "Relocate")
+                    b.HasOne("SystemData.Models.Salary", "Salary")
                         .WithMany()
-                        .HasForeignKey("RelocateId");
+                        .HasForeignKey("SalaryId");
 
                     b.HasOne("SystemData.Models.Sector", "Sector")
                         .WithMany()
                         .HasForeignKey("SectorId");
 
-                    b.HasOne("SystemData.Models.Seeking", "Seeking")
-                        .WithMany()
-                        .HasForeignKey("SeekingId");
-
                     b.HasOne("SystemData.Models.Smoking", "Smoking")
                         .WithMany()
                         .HasForeignKey("SmokingId");
-
-                    b.HasOne("SystemData.Models.WantKids", "WantKids")
-                        .WithMany()
-                        .HasForeignKey("WantKidsId");
 
                     b.HasOne("SystemData.Models.Work", "Work")
                         .WithMany()
@@ -973,6 +1082,8 @@ namespace SystemData.Migrations
 
                     b.Navigation("Age");
 
+                    b.Navigation("Book");
+
                     b.Navigation("Country");
 
                     b.Navigation("Driver");
@@ -983,25 +1094,19 @@ namespace SystemData.Migrations
 
                     b.Navigation("Gender");
 
-                    b.Navigation("Havekids");
-
                     b.Navigation("Height");
 
                     b.Navigation("Home");
 
-                    b.Navigation("PolygamyOpinion");
+                    b.Navigation("Personality");
 
                     b.Navigation("Relationship");
 
-                    b.Navigation("Relocate");
+                    b.Navigation("Salary");
 
                     b.Navigation("Sector");
 
-                    b.Navigation("Seeking");
-
                     b.Navigation("Smoking");
-
-                    b.Navigation("WantKids");
 
                     b.Navigation("Work");
 
@@ -1027,15 +1132,6 @@ namespace SystemData.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SystemData.Models.Car", b =>
-                {
-                    b.HasOne("SystemData.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId1");
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("SystemData.Models.Connection", b =>
                 {
                     b.HasOne("SystemData.Models.Group", null)
@@ -1044,56 +1140,137 @@ namespace SystemData.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SystemData.Models.Favorite", b =>
+            modelBuilder.Entity("SystemData.Models.GroupMessages", b =>
                 {
-                    b.HasOne("SystemData.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId1");
-
-                    b.HasOne("SystemData.Models.Car", "Car")
-                        .WithMany()
-                        .HasForeignKey("CarId")
+                    b.HasOne("SystemData.Models.AppUser", "FirstUser")
+                        .WithMany("GroupMessagesFirst")
+                        .HasForeignKey("FirstUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.HasOne("SystemData.Models.AppUser", "SecondUser")
+                        .WithMany("GroupMessagesSecond")
+                        .HasForeignKey("SecondUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Car");
+                    b.Navigation("FirstUser");
+
+                    b.Navigation("SecondUser");
                 });
 
             modelBuilder.Entity("SystemData.Models.Message", b =>
                 {
+                    b.HasOne("SystemData.Models.GroupMessages", "GroupMessages")
+                        .WithMany()
+                        .HasForeignKey("GroupMessagesId");
+
+                    b.HasOne("SystemData.Models.PublicMessage", "PublicMessage")
+                        .WithMany()
+                        .HasForeignKey("PublicMessageId");
+
                     b.HasOne("SystemData.Models.AppUser", "Recipient")
                         .WithMany("MessagesReceived")
-                        .HasForeignKey("RecipientId1")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SystemData.Models.AppUser", "Sender")
                         .WithMany("MessagesSent")
-                        .HasForeignKey("SenderId1")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SystemData.Models.Stamp", "Stamp")
+                        .WithMany()
+                        .HasForeignKey("StampId");
+
+                    b.Navigation("GroupMessages");
+
+                    b.Navigation("PublicMessage");
 
                     b.Navigation("Recipient");
 
                     b.Navigation("Sender");
+
+                    b.Navigation("Stamp");
                 });
 
             modelBuilder.Entity("SystemData.Models.Notification", b =>
                 {
                     b.HasOne("SystemData.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId1");
+                        .WithMany("NotificationsUsers")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SystemData.Models.AppUser", "Source")
+                        .WithMany("NotificationsSourceUsers")
+                        .HasForeignKey("SourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("AppUser");
+
+                    b.Navigation("Source");
                 });
 
-            modelBuilder.Entity("SystemData.Models.Photo", b =>
+            modelBuilder.Entity("SystemData.Models.PublicMessage", b =>
                 {
-                    b.HasOne("SystemData.Models.AppUser", "AppUser")
-                        .WithMany("Photos")
-                        .HasForeignKey("AppUserId1");
+                    b.HasOne("SystemData.Models.AppUser", "Sender")
+                        .WithMany("publicMessagesUser")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.HasOne("SystemData.Models.Stamp", "Stamp")
+                        .WithMany()
+                        .HasForeignKey("StampId");
+
+                    b.Navigation("Sender");
+
+                    b.Navigation("Stamp");
+                });
+
+            modelBuilder.Entity("SystemData.Models.Question", b =>
+                {
+                    b.HasOne("SystemData.Models.AppUser", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SystemData.Models.AppUser", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SystemData.Models.Stamp", "Stamp")
+                        .WithMany()
+                        .HasForeignKey("StampId");
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
+
+                    b.Navigation("Stamp");
+                });
+
+            modelBuilder.Entity("SystemData.Models.UserHobbies", b =>
+                {
+                    b.HasOne("SystemData.Models.AppUser", "appUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SystemData.Models.Hobbies", "hobbies")
+                        .WithMany("UserHobbies")
+                        .HasForeignKey("HobbiesId");
+
+                    b.Navigation("appUser");
+
+                    b.Navigation("hobbies");
                 });
 
             modelBuilder.Entity("SystemData.Models.UserLike", b =>
@@ -1115,6 +1292,23 @@ namespace SystemData.Migrations
                     b.Navigation("SourceUser");
                 });
 
+            modelBuilder.Entity("SystemData.Models.UserMessage", b =>
+                {
+                    b.HasOne("SystemData.Models.Message", "Message")
+                        .WithMany()
+                        .HasForeignKey("MessageId");
+
+                    b.HasOne("SystemData.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SystemData.Models.AppRole", b =>
                 {
                     b.Navigation("UserRoles");
@@ -1122,6 +1316,10 @@ namespace SystemData.Migrations
 
             modelBuilder.Entity("SystemData.Models.AppUser", b =>
                 {
+                    b.Navigation("GroupMessagesFirst");
+
+                    b.Navigation("GroupMessagesSecond");
+
                     b.Navigation("LikedByUsers");
 
                     b.Navigation("LikedUsers");
@@ -1130,14 +1328,23 @@ namespace SystemData.Migrations
 
                     b.Navigation("MessagesSent");
 
-                    b.Navigation("Photos");
+                    b.Navigation("NotificationsSourceUsers");
+
+                    b.Navigation("NotificationsUsers");
 
                     b.Navigation("UserRoles");
+
+                    b.Navigation("publicMessagesUser");
                 });
 
             modelBuilder.Entity("SystemData.Models.Group", b =>
                 {
                     b.Navigation("Connections");
+                });
+
+            modelBuilder.Entity("SystemData.Models.Hobbies", b =>
+                {
+                    b.Navigation("UserHobbies");
                 });
 #pragma warning restore 612, 618
         }

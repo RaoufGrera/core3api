@@ -22,6 +22,7 @@ using SystemData.Models;
 using System.IO;
 using System.Net.Http.Headers;
 using HeyRed.Mime;
+using core3api.Extensions;
 
 namespace core3api.Controllers.v1
 {
@@ -30,14 +31,14 @@ namespace core3api.Controllers.v1
     {
         public IAuthService _authService;
         protected SystemContext _context;
-         protected UserManager<AppUser> mUserManager;
+        protected UserManager<AppUser> mUserManager;
 
 
         public AuthController(SystemContext context,
             UserManager<AppUser> userManager,
 
             IAuthService authService
- 
+
            )
         {
             _authService = authService;
@@ -45,13 +46,28 @@ namespace core3api.Controllers.v1
             mUserManager = userManager;
 
         }
-     
+
 
         [AllowAnonymous]
         [HttpPost("facebookAuth")]
-        public  IActionResult  FacebookAuth([FromBody] string accessToken)
+        public IActionResult FacebookAuth([FromBody] string accessToken)
         {
-            var user =  _authService.FacebookAuthFunc(accessToken);
+
+            var user = _authService.FacebookAuthFunc(accessToken);
+
+            if (user.Result == null)
+                return BadRequest(new { message = "خطاء اثناء تسجيل الدخول" });
+
+            return Ok(user.Result);
+
+        }
+
+        [AllowAnonymous]
+        [HttpPost("fbAuth")]
+        public IActionResult FBAuth([FromBody] VUser nextUser)
+        {
+
+            var user = _authService.FBAuth(nextUser);
 
             if (user.Result == null)
                 return BadRequest(new { message = "خطاء اثناء تسجيل الدخول" });
@@ -86,10 +102,74 @@ namespace core3api.Controllers.v1
 
         }
 
-        [HttpGet("users")]
-        public IEnumerable GetUsers()
+        
+        [Authorize]
+        [HttpPost("delete")]
+        public IActionResult deleteAccount()
         {
-            return _context.AppUser;
+            long currentId = User.GetUserId();
+
+         
+            
+            var itemToRemove = _context.Users.SingleOrDefault(x => x.Id == currentId); //returns a single item.
+
+            if (itemToRemove != null)
+            {
+                _context.Users.Remove(itemToRemove);
+                _context.SaveChanges();
+            }
+
+            return Ok();
+
+        }
+
+        [Authorize]
+        [HttpGet("chats")]
+        public IEnumerable<VUser> GetChats()
+        {
+
+            long currentId = User.GetUserId();
+            var result = _context.GroupMessages
+                                     .Where(m => m.FirstUserId == currentId || m.SecondUserId == currentId )
+                                     .Select(u => new VUser { 
+
+                               Name   = (u.SecondUserId == currentId) ? u.FirstUser.Name : u.SecondUser.Name,
+                               UserName = (u.SecondUserId == currentId) ? u.FirstUser.UserName : u.SecondUser.UserName,
+                                Image = (u.SecondUserId == currentId) ? u.FirstUser.Image : u.SecondUser.Image,
+                                         Id = (u.SecondUserId == currentId) ? u.FirstUser.Id : u.SecondUser.Id,
+                                         IsReceived = (u.LastUpdated < DateTime.UtcNow),
+
+                                         MessageSent = u.LastUpdated
+
+                                     })
+                                      .OrderByDescending(c => c.MessageSent)
+
+                                      .ToList();
+
+            if (result == null)
+                return null;
+           
+ 
+
+            return result;
+        }
+
+     
+
+
+
+        [HttpGet("filter")]
+        public VFilter GetFilter()
+        {
+
+            var home = _context.Home.ToList();
+            var sectors = _context.Sector.ToList();
+
+            var educations = _context.Education.ToList();
+
+            VFilter vFilter = new VFilter {home= home, secotr = sectors, education =educations };
+            return vFilter;
+           
         }
 
 
@@ -103,6 +183,7 @@ namespace core3api.Controllers.v1
             return Ok($"Super secret content, I hope you've got clearance for this {userName}..OfficeId: .{OfficeId}");
         }
 
+        
 
 
 

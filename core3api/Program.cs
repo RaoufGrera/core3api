@@ -27,25 +27,25 @@ namespace core3api
              host.Run();*/
             IWebHost host = BuildWebHost(args);
 
-               using (IServiceScope scope = host.Services.CreateScope())
-              {
-                  IServiceProvider services = scope.ServiceProvider;
-                  SystemContext context = services.GetRequiredService<SystemContext>();
+            using (IServiceScope scope = host.Services.CreateScope())
+            {
+                IServiceProvider services = scope.ServiceProvider;
+                SystemContext context = services.GetRequiredService<SystemContext>();
 
-                  var manager = scope.ServiceProvider.GetService<UserManager<AppUser>>();
-                  var roleManager = scope.ServiceProvider.GetService<RoleManager<AppRole>>();
+                var manager = scope.ServiceProvider.GetService<UserManager<AppUser>>();
+                var roleManager = scope.ServiceProvider.GetService<RoleManager<AppRole>>();
 
                 try
                 {
-                   SeedData.Initialize(serviceProvider: services);
-                   SeedData.SeedUsers(manager, roleManager).Wait();
+                    SeedData.Initialize(serviceProvider: services);
+                    SeedData.SeedUsers(services, manager, roleManager).Wait();
                 }
-                  catch (Exception ex)
-                  {
-                      ILogger<Program> logger = services.GetRequiredService<ILogger<Program>>();
-                      logger.LogError(ex, "An error occurred seeding the DB.");
-                  }
-              };
+                catch (Exception ex)
+                {
+                    ILogger<Program> logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred seeding the DB.");
+                }
+            };
             host.Run();
         }
 

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SystemData;
 using core3api.Interfaces;
+using core3api.SignalR;
 
 namespace core3api.Extensions
 {
@@ -21,11 +22,14 @@ namespace core3api.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserServices, UserService>();
+            services.AddScoped<MessageHub>();
 
             //  services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<LogUserActivity>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+
+
 
 
             services.AddDbContext<SystemContext>(options =>

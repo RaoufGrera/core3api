@@ -6,16 +6,17 @@ namespace core3api.Extensions
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<Message> MarkUnreadAsRead(this IQueryable<Message> query, string currentUsername)
+        public static IQueryable<Message> MarkUnreadAsRead(this IQueryable<Message> query, long currentId)
         {
+
             var unreadMessages = query.Where(m => m.DateRead == null
-                && m.RecipientUsername == currentUsername);
+                && m.RecipientId == currentId);
 
             if (unreadMessages.Any())
             {
                 foreach (var message in unreadMessages)
                 {
-                    message.DateRead = DateTime.UtcNow;
+                    message.DateRead = DateTime.UtcNow.AddHours(2); 
                 }
             }
 

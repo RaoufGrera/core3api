@@ -1,33 +1,22 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SystemData;
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using core3api.Services;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using SystemData.Models;
-using Microsoft.AspNetCore.Identity;
-using System.IdentityModel.Tokens.Jwt;
-using core3api.Model;
-using Microsoft.Extensions.FileProviders;
-using System.IO;
-using Microsoft.AspNetCore.Http;
 using core3api.Extensions;
 using core3api.SignalR;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.SpaServices.Extensions;
+using Microsoft.Extensions.FileProviders;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace core3api
 {
@@ -35,6 +24,7 @@ namespace core3api
     {
         public Startup(IConfiguration configuration)
         {
+            SchedulerTask.StartAsync().GetAwaiter().GetResult();
             Configuration = configuration;
         }
 
@@ -47,20 +37,31 @@ namespace core3api
 
 
 
-           
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowAll",
+            //          builder =>
+            //          {
+            //              builder //.WithOrigins("https://localhost:3000")
+            //              .AllowAnyOrigin()
+            //                     .AllowAnyHeader()
+            //                        .AllowAnyMethod();
+            //          });
+            //});
 
-
+            services.AddControllersWithViews(options =>
+    options.ModelBinderProviders.RemoveType<DateTimeModelBinderProvider>());
             services.AddDbContext<SystemContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             //services.AddIdentity<AppUser, AppRole>()
-                
+
             //  .AddEntityFrameworkStores<SystemContext>()
             //  .AddDefaultTokenProviders();
 
-          
 
-           // services.AddControllers();
+
+            // services.AddControllers();
             services.AddApplicationServices(config: Configuration);
             services.AddIdentityServices(Configuration);
             services.AddSignalR();
@@ -81,50 +82,58 @@ namespace core3api
                 });
             });
 
-        
-              
+            services.AddSpaStaticFiles(config =>
+            {
+                config.RootPath = "dist";
+            });
 
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowAll",
-            //          builder =>
-            //          {
-            //              builder.WithOrigins("https://localhost:3001")
-            //              .AllowAnyOrigin()
-            //                     .AllowAnyHeader()
-            //                        .AllowAnyMethod();
-            //          });
-            //});
-         
-          //  services.AddCors();
-          //  services.AddControllers();
 
-          //  services.AddMvc();
+            //  services.AddCors();
+            //  services.AddControllers();
+
+            //  services.AddMvc();
 
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env ,IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             SystemContext con = (SystemContext)serviceProvider.GetService(typeof(SystemContext));
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+
+            //app.UseCors(x => x
+            //.AllowAnyOrigin()
+            //.AllowAnyMethod()
+            //.AllowAnyHeader());
             /* if (con != null) {
 
               con.Database.EnsureDeleted();
 
              con.Database.EnsureCreated();
           }*/
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
+
+            //  app.UseSpaStaticFiles();
+
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
-                RequestPath = new PathString("/StaticFiles")
+                //FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/StaticFiles")),
+//RequestPath = new PathString("/wwwroot/StaticFiles"),
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+                    ctx.Context.Response.Headers.Append("Access-Control-Allow-Headers",
+                      "*");
+                },
+
             });
+
 
             //app.UseCors(x => x
             //   .AllowAnyMethod()
@@ -134,23 +143,42 @@ namespace core3api
             // .SetIsOriginAllowed(origin => true)); // allow credentials
 
 
-            app.UseCors(x => x.AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials()
-            .WithOrigins("http://localhost:3000"));
+           
 
-            app.UseSwagger();
+
+            if (env.IsDevelopment())
+                   {
+                    app.UseCors(x => x.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .WithOrigins("https://localhost:3000"));
+                    app.UseCors("AllowAll");
+            }
+
+
+                app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Zomato API V1");
-                c.RoutePrefix = string.Empty;
+                c.RoutePrefix = "";
             });
+ 
+            app.UseHttpsRedirection();
 
-             app.UseHttpsRedirection();
 
+            app.UseRouting();
+          //  app.UseCors(x => x
+          //.AllowAnyMethod()
+          //.AllowAnyHeader()
+          // .WithOrigins("https://localhost:3000")
+          //.SetIsOriginAllowed(origin => true) // allow any origin
+          //                                    // .WithHeaders(HeaderNames.ContentType, HeaderNames.Accept)
+          //                                    // .AllowAnyOrigin()
+          //.AllowCredentials()
+          //); // allow credentials
 
-             app.UseRouting();
-                
+      
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -158,11 +186,20 @@ namespace core3api
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<PresenceHub>("hubs/presence");
-              endpoints.MapHub<MessageHub>("hubs/message");
+                endpoints.MapHub<MessageHub>("hubs/message");
 
             });
 
-          
+            //app.UseSpa(spa =>
+            //{
+
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+            //    }
+            //});
+
+
 
 
         }

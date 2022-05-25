@@ -43,7 +43,7 @@ namespace core3api.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.ToUniversalTime().AddDays(7),
                 SigningCredentials = creds
             };
 

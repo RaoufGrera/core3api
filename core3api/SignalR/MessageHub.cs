@@ -51,6 +51,28 @@ namespace core3api.SignalR
             await base.OnDisconnectedAsync(exception);
         }
 
+
+        public async Task SendMessageNew(Notification  notification)
+        {
+            var toUser = notification.AppUserId;
+
+            //if (SenderId == newMessage.RecipientId)
+            //    throw new HubException("You cannot send messages to yourself");
+
+    
+
+           
+                var connections = await _tracker.GetConnectionsForUser(notification.Username);
+                if (connections != null)
+                {
+                    await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived",
+                        new { username = toUser, name = notification.Name, content = notification.Content, url =notification.Url});
+
+            }
+               // _unitOfWork.MessageRepository.AddMessage(message);
+
+        }
+
         public async Task SendMessage(VCreateMessage createMessageDto)
         {
             var username = Context.User.GetUsername();
@@ -68,7 +90,7 @@ namespace core3api.SignalR
                 Sender = sender,
                 Recipient = recipient,
                 SenderUsername = sender.UserName,
-                RecipientUsername = recipient.UserName,
+                //RecipientUsername = recipient.UserName,
                 Content = createMessageDto.Content
             };
 
