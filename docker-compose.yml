@@ -26,7 +26,7 @@ services:
   next:
     image: dist:latest
     ports:
-      - "3001:3000"
+      - "127.0.0.1:3001:3000"
 
   api:
     image: api:latest
@@ -37,7 +37,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5001:80"
+      - "127.0.0.1:5001:80"
     environment:
       DB_CONNECTION_STRING: "host=postgresql_database;port=5432;database=TodoList;username=postgres;password=102030"
 
