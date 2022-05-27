@@ -124,7 +124,7 @@ namespace core3api
             app.UseStaticFiles(new StaticFileOptions()
             {
                 //FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/StaticFiles")),
-                //RequestPath = new PathString("/wwwroot/StaticFiles"),
+//RequestPath = new PathString("/wwwroot/StaticFiles"),
                 OnPrepareResponse = ctx =>
                 {
                     ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
@@ -143,48 +143,41 @@ namespace core3api
             // .SetIsOriginAllowed(origin => true)); // allow credentials
 
 
-
+           
 
 
             if (env.IsDevelopment())
-            {
-                app.UseCors(x => x.AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
-                .WithOrigins("http://localhost:3000", "https://localhost:3000"));//                    .WithOrigins("https://localhost:3000"));
-
-                app.UseCors("AllowAll");
-            }
-            app.UseCors(x => x.AllowAnyHeader()
+                   {
+                    app.UseCors(x => x.AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .WithOrigins("https://localhost", "https://myletter.app"));
-            app.UseCors("AllowAll");
+                    .WithOrigins("https://localhost:3000"));
+                    app.UseCors("AllowAll");
+            }
 
 
-
-            app.UseSwagger();
+                app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Zomato API V1");
                 c.RoutePrefix = "";
             });
-
+ 
             app.UseHttpsRedirection();
 
 
             app.UseRouting();
-            //  app.UseCors(x => x
-            //.AllowAnyMethod()
-            //.AllowAnyHeader()
-            // .WithOrigins("https://localhost:3000")
-            //.SetIsOriginAllowed(origin => true) // allow any origin
-            //                                    // .WithHeaders(HeaderNames.ContentType, HeaderNames.Accept)
-            //                                    // .AllowAnyOrigin()
-            //.AllowCredentials()
-            //); // allow credentials
+          //  app.UseCors(x => x
+          //.AllowAnyMethod()
+          //.AllowAnyHeader()
+          // .WithOrigins("https://localhost:3000")
+          //.SetIsOriginAllowed(origin => true) // allow any origin
+          //                                    // .WithHeaders(HeaderNames.ContentType, HeaderNames.Accept)
+          //                                    // .AllowAnyOrigin()
+          //.AllowCredentials()
+          //); // allow credentials
 
-
+      
 
             app.UseAuthentication();
             app.UseAuthorization();
