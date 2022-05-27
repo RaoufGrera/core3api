@@ -143,20 +143,30 @@ namespace core3api
             // .SetIsOriginAllowed(origin => true)); // allow credentials
 
 
-           
+
+
 
 
             if (env.IsDevelopment())
-                   {
-                    app.UseCors(x => x.AllowAnyHeader()
+            {
+                app.UseCors(x => x.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .WithOrigins("http://localhost:3000", "https://localhost:3000"));//                    .WithOrigins("https://localhost:3000"));
+
+                app.UseCors("AllowAll");
+            }
+            app.UseCors(x => x.AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .WithOrigins("https://localhost:3000"));
-                    app.UseCors("AllowAll");
-            }
+                    .WithOrigins("https://localhost", "https://myletter.app"));
+            app.UseCors("AllowAll");
 
 
-                app.UseSwagger();
+
+
+
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Zomato API V1");
