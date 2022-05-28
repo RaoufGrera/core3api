@@ -39,7 +39,7 @@ function ShowLogin() {
 
 
 
-            <section>
+            <section className='px-0'>
 
                 <div className="auth-types">
 

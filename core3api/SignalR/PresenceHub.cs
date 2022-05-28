@@ -47,9 +47,12 @@ namespace core3api.Services
             if (isOffline)
             {
                 AppUser appUser =  _context.AppUser.FirstOrDefault(r => r.UserName == Context.User.GetUsername());
-                appUser.LastActive = DateTime.UtcNow.AddHours(2);
-                appUser.Online = false;
-                await _context.SaveChangesAsync();
+                if (appUser != null)
+                {
+                    appUser.LastActive = DateTime.UtcNow.AddHours(2);
+                    appUser.Online = false;
+                    await _context.SaveChangesAsync();
+                }
                 await Clients.Others.SendAsync("UserIsOffline", Context.User.GetUsername());
             }
             //Context.User.add

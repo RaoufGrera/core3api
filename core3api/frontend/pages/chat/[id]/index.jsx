@@ -35,10 +35,21 @@ function Messages(props) {
 
   }, []);
 
+
   function openPage(_index) {
     setMsgIndex(_index)
     setShowMessage(!showMessage)
   }
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      setTimeout(() => {
+        document
+          .querySelector(hash)
+          .scrollIntoView({ behavior: "smooth" })
+      }, 100)
+    }
+  })
 
   const loadMessages = () => {
     accountService.getMessagesById(props.id).then(x => {
@@ -70,7 +81,7 @@ function Messages(props) {
 
       {!showMessage &&
         <div>
-          <div className="friend-header-wrapper">
+          <div id="message" className="friend-header-wrapper">
             <div className="friend-header link p-2 pl-2 pr-4 pb-1">
 
               <Link href={`/profile/${profile.id}`}>
@@ -98,7 +109,7 @@ function Messages(props) {
 
               <div className="row row-eq-height pt-2 pb-2">
                 {messagesData && messagesData.map((msg, index) =>
-                  <div className="col-6 col-xl-4 mb-3">
+                  <div className="col-md-6 col-xl-4 mb-3">
                     <div onClick={() => openPage(index)} className={`card  shadow-sm h-100 rounded-0 letter-sm link no-underline ${(msg.ago == "before") && ` pe-none`}`} href={"/chat/" + id + "/" + msg.id}>
                       <div className="p-3 pb-0 mb-0"><div className="d-flex flex-row "><div className="flex-grow-1"><i className="icon-done text-lightest">
                         {(msg.ago == "before") &&

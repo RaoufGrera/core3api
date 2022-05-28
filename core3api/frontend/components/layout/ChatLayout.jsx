@@ -51,7 +51,7 @@ function ChatLayout(props, p) {
 
                 {users && users.map(user =>
 
-                  <Link key={user.id} href={"/chat/" + user.id} scroll={false} >
+                  <Link key={user.id} href={"/chat/" + user.id + "/#message"} scroll={false} >
                     <li className="list-group-item d-flex pe-click">
                       <div className="mr-2">
                         <img src={`${process.env.imgUrl}/${user.image}`} className="rounded-circle avatar-border " alt="Reham.sa" width="42" height="42" />

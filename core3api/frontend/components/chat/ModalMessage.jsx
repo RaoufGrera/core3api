@@ -111,13 +111,11 @@ function ModalMessage(props) {
 
             <div className="d-flex w-100 justify-content-between p-1 ">
               <div>
-                <button onClick={exit} type="button" className="btn btn-danger ml-2 btn-120">{t('close')}</button>
+                <button onClick={exit} type="button" className="btn btn-default btn-toolbar">{t('close')}</button>
               </div>
-              <div className='p-2 ml-3'><span>
-                {(user != null) ? t('private_message') : t('public_message')}</span>
-              </div>
+
               <div>
-                <button onClick={handelChange} type="button" className="btn btn-dark ml-2 btn-120">
+                <button onClick={handelChange} type="button" className="btn btn-warning ml-2 btn-120">
                   <i className="icon-send mr-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-send" viewBox="0 0 16 16">
                     <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"></path>
                   </svg></i>
@@ -128,23 +126,19 @@ function ModalMessage(props) {
           </div>
           <ModalStamp show={showModalMessage} exit={handleCloseModalText} change={(e) => { changeStamp(e) }} />
 
-          <div dir="rtl" className="d-flex pt-2 px-3 align-items-center">
+          <div dir="rtl" className="d-flex pt-2 px-1 align-items-center">
             {(user == null) &&
-              <div className="d-flex align-items-center mt-n2">
+              <div className="d-flex align-items-center px-2 mt-n2">
                 <div lang='ar' className="stamp-header-one"><div className="stamp-img"></div>LY</div>
               </div>
             }
             {(user != null) &&
-              <div className="d-flex p-2 box-user ">
+              <div className="d-flex p-2">
 
-                <div className="mr-2">
+                <div className="">
                   <img src={`${process.env.imgUrl}/${user.image}`} className="p-1 border " alt="user logo" width="80" height="80" /></div>
-                <div className="col "><div className="d-flex  text-truncate">
-                  <p className="col pl-0 pr-0 mt-2 mb-0 text-black-100 fw-bold mx-2">{user.name}</p>
-                </div><div className="text-black-50 d-flex p-0 m-0 align-items-center small text-truncate">
-                    <p className="mt-1 box-age mx-1">{user.age}، {user.country}</p></div>
 
-                </div>
+
 
               </div>
             }

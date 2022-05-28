@@ -416,15 +416,15 @@ namespace core3api.Services
         {
             Random rand = new Random();
             int toSkip = rand.Next(0, _context.PublicMessages.Count() );
-            if(toSkip == 0) return null;
-            var result = _context.PublicMessages.Skip(toSkip)
-                .Take(10)
+            //if(toSkip == 0) return null;
+            var result = _context.PublicMessages.Where(i=> i.ArrivalDate < DateTime.UtcNow.AddDays(7)).Skip(toSkip)
+                .Take(2)
                 .Select(p=> new VMessage
                 {
                     Id = p.Id,
-                    Content=p.Content,
-                  
-                    StampId=p.StampId,
+                    Content = (p.Content.Length > 180) ? p.Content.Substring(0, 180) + "..." : p.Content,
+
+                    StampId = p.StampId,
                     SenderName =p.Sender.Name,
                     SenderImage = p.Sender.Image,
                     SenderCountry = p.Sender.CountryId,
@@ -433,7 +433,25 @@ namespace core3api.Services
                     MessageNumber = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? TimeAgoStatic(p.ArrivalDate).Item2 : TimeBeforeStatic(p.ArrivalDate).Item2,
                 })
                 .ToList();
+             toSkip = rand.Next(0, _context.Messages.Count());
 
+            var resultMessage = _context.Messages.Where(i=>!i.IsPublic && i.ArrivalDate < DateTime.UtcNow.AddDays(7)).Skip(toSkip)  // && i.ArrivalDate > DateTime.UtcNow.AddDays(3)
+                .Take(10)
+                .Select(p => new VMessage
+                {
+                    Id = p.Id,
+                    Content = (p.Content.Length > 180) ? p.Content.Substring(0, 180) + "..." : p.Content,
+                    IsPublic = p.IsPublic,
+                    StampId = p.StampId,
+                    SenderName = "private_message" ,//p.Sender.Name,
+                    SenderImage = p.Sender.Image,
+                    SenderCountry = p.Sender.CountryId,
+                    Ago = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? "ago" : "before",
+                    MessageAgo = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? TimeAgoStatic(p.ArrivalDate).Item1 : TimeBeforeStatic(p.ArrivalDate).Item1,
+                    MessageNumber = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? TimeAgoStatic(p.ArrivalDate).Item2 : TimeBeforeStatic(p.ArrivalDate).Item2,
+                })
+                .ToList();
+            result.AddRange(resultMessage);
             return result;
         }
 

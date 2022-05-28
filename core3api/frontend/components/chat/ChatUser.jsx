@@ -29,7 +29,7 @@ function ChatUser() {
 
       {users && users.map(user =>
         <li key={user.id}>
-          <Link href={"/chat/" + user.id}>
+          <Link href={"/chat/" + user.id + ""}>
             user.name
           </Link>
 

@@ -51,7 +51,7 @@ function PublicNav({ show }) {
 
 	return (
 		<nav className='shadow-sm  navbar sticky-top navbar-expand-md navbar-light bg-white p-0'>
-			<div className="container-fluid">
+			<div className="container-fluid px-1">
 
 				<div id="navbarID" className=" navbar-collapse ">
 
@@ -103,7 +103,9 @@ function PublicNav({ show }) {
 				</div>
 				<Link className="navbar-brand" href="/">
 
-					<img width={140} className="logo" src="/logo.png" alt="صدفة" />
+					<img width={120} className="logo" src="/logo.png" alt="myletter" />
+					<img width={40} className="logo-sm" src='/logo-sm.png' alt="myletter" />
+
 				</Link>
 			</div>
 		</nav >

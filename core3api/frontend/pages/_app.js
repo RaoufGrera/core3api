@@ -271,9 +271,10 @@ const App = ({ Component, pageProps }) => {
 
             <div className="app-container bg-light">
 
-                {!userData ?
+
+                {!accountService.accountValue && !userData ?
                     <PublicNav />
-                    : <HeaderNav userData={userData} />
+                    : userData && <HeaderNav userData={userData} />
                 }
 
 

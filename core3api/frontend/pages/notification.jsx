@@ -29,7 +29,7 @@ const Notification = (props) => {
             <h1 className="header-logged-h1">{t('notification')}</h1>
 
             <br></br>
-            <div className='container'>
+            <div className='container px-1'>
                 <div className="card rounded-0" >
 
                     <div className="list-group list-group-flush">
@@ -45,7 +45,7 @@ const Notification = (props) => {
 
 
                                     </div>
-                                    <div className="p-3"> {t(user.ago)} {user.timeNumber} {t(user.timeAgo)}</div>
+                                    <div className="py-3"> {t(user.ago)} {user.timeNumber} {t(user.timeAgo)}</div>
 
 
                                 </div>

@@ -63,14 +63,14 @@ function HeaderNav({ userData }) {
 
 
 		<nav className='shadow-sm  navbar sticky-top navbar-expand-md navbar-light bg-white p-0'>
-			<div className="container-fluid">
+			<div className="container-fluid px-1">
 
 				<div id="navbarID" className=" navbar-collapse ">
 
 
 					<ul className="menu navbar-nav mr-auto  mt-md-0">
 
-						<li className=" dropdown account mr-3">
+						<li className=" dropdown account mr-0">
 
 							<a ref={ref} onClick={toggleListProfile} id="link-header-account">
 								<span className="portrait">
@@ -173,8 +173,9 @@ function HeaderNav({ userData }) {
 
 				</div>
 				<Link className="navbar-brand" href="/">
+					<img width={120} className="logo" src='/logo.png' alt="myletter" />
+					<img width={40} className="logo-sm" src='/logo-sm.png' alt="myletter" />
 
-					<img width={140} className="logo" src="/logo.png" alt="صدفة" />
 				</Link>
 			</div>
 		</nav>
