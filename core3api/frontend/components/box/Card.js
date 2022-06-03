@@ -7,7 +7,7 @@ import { useTranslation } from "next-i18next";
 
 function Card(props) {
   const { where, i, x, y, rot, scale, trans, cards, bind, objs } = props;
-  const { content, stampId, id, senderId, senderName, messageNumber, isPublic, ago, messageAgo } = objs[i];
+  const { content, stampId, id, senderId, senderName, messageNumber, senderCountry, isPublic, ago, messageAgo } = objs[i];
 
 
   const [secret, SetSecret] = useState(getRandomInt(10));
@@ -75,7 +75,7 @@ function Card(props) {
             </div>
 
 
-            <div className="stamp-header" lang="ar"><div className="stamp-img"></div>LY</div>
+            <div className="stamp-header" lang="ar"><div className="stamp-img"></div>{senderCountry.toUpperCase()}</div>
 
             <div className="p-3 pb-0"><p className="text-black-100 fw-bold ">{isPublic ? senderName : t(senderName)}</p>
               <p className="text-black-50  rtl small mb-2" dir="rtl" >{t(ago)} {messageNumber} {t(messageAgo)}</p>

@@ -112,7 +112,7 @@ function Deck() {
         };
       });
 
-      if (!down && gone.size === mesgs.length)
+      if (!down && gone.size === cards.length)
         setTimeout(() => gone.clear() || set(i => to(i)), 600);
     }
   );

@@ -49,7 +49,7 @@ function Messages(props) {
           .scrollIntoView({ behavior: "smooth" })
       }, 100)
     }
-  })
+  })//092565656
 
   const loadMessages = () => {
     accountService.getMessagesById(props.id).then(x => {

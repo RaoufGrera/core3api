@@ -422,7 +422,7 @@ namespace core3api.Services
                 .Select(p=> new VMessage
                 {
                     Id = p.Id,
-                    Content = (p.Content.Length > 180) ? p.Content.Substring(0, 180) + "..." : p.Content,
+                    Content = (p.Content.Length > 180) ? p.Content.Substring(0, 280) + "..." : p.Content,
 
                     StampId = p.StampId,
                     SenderName =p.Sender.Name,
@@ -435,10 +435,11 @@ namespace core3api.Services
                 .ToList();
              toSkip = rand.Next(0, _context.Messages.Count());
 
-            var resultMessage = _context.Messages.Where(i=>!i.IsPublic && i.ArrivalDate < DateTime.UtcNow.AddDays(7)).Skip(toSkip)  // && i.ArrivalDate > DateTime.UtcNow.AddDays(3)
+            var resultMessage = _context.Messages.Where(i=>!i.IsPublic && i.PublicMessageId == null && i.ArrivalDate < DateTime.UtcNow.AddDays(7)).Skip(toSkip)  // && i.ArrivalDate > DateTime.UtcNow.AddDays(3)
                 .Take(10)
                 .Select(p => new VMessage
                 {
+                    
                     Id = p.Id,
                     Content = (p.Content.Length > 180) ? p.Content.Substring(0, 180) + "..." : p.Content,
                     IsPublic = p.IsPublic,
@@ -710,7 +711,7 @@ namespace core3api.Services
         {
             var currentUser = _context.AppUser.Where(o => o.Id == currentId).SingleOrDefault();
             Random rand = new Random();
-            int toSkip = rand.Next(0, _context.Users.Count() - 4);
+            int toSkip = rand.Next(0, _context.Users.Count() -4);
 
             var result = _context.Users.Where(o => o.Id != currentId).Skip(toSkip)
                 .Take(4).ToList();

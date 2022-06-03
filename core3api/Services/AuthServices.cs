@@ -144,7 +144,7 @@ namespace core3api.Services
             // 4. ready to create the local user account (if necessary) and jwt
             var faceId = "f"+userInfo.Id.ToString();
             var emailId = faceId; //(userInfo.Email.IsNullOrEmpty()) ?: userInfo.Email;
-            var user = await _mUserManager.FindByEmailAsync(emailId);
+            var user = await _context.Users.Where(u=>u.UserName == emailId).FirstOrDefaultAsync();
 
             if (user == null)
             {

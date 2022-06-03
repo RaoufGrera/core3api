@@ -173,6 +173,12 @@ namespace core3api.Seed
             context.SaveChangesAsync().Wait();
 
 
+            //
+            //context.FamilyValues.AddRange(new FamilyValues { Id = "niqab", Name = "نقاب", NameEn = "Very practising" });
+            //context.FamilyValues.AddRange(new FamilyValues { Id = "moderate", Name = "عباءة", NameEn = "Moderately practising" });
+            //context.FamilyValues.AddRange(new FamilyValues { Id = "secular", Name = "عباءة", NameEn = "Not practising" });
+            //context.SaveChangesAsync().Wait();
+
             // المرتب done 
             context.Salary.AddRange(new Salary { Id = "200", Name = "$200 دولار شهريًا", NameEn = "$200 Monthly" });
             context.Salary.AddRange(new Salary { Id = "500", Name = "$500 دولار شهريًا", NameEn = "$500 Monthly" });

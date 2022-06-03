@@ -37,7 +37,7 @@ const Notification = (props) => {
                             <Link key={user.id} href={user.url} className="list-group-item list-group-item-action ">
                                 <div className="d-flex flex-row">
                                     <div className='p-2'>
-                                        <img src={`${process.env.imgUrl}/${user.image}`} className="rounded-circle avatar-border " alt="Reham.sa" width="42" height="42" />
+                                        <img src={`${process.env.imgUrl}/${user.image}`} className="rounded-circle avatar-border " alt="avatar" width="42" height="42" />
                                     </div>
                                     <div className="flex-grow-1 d-flex flex-column">
                                         <div className="p-1"> {t(user.name)}</div>

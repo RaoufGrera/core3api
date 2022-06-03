@@ -54,7 +54,7 @@ function ChatLayout(props, p) {
                   <Link key={user.id} href={"/chat/" + user.id + "/#message"} scroll={false} >
                     <li className="list-group-item d-flex pe-click">
                       <div className="mr-2">
-                        <img src={`${process.env.imgUrl}/${user.image}`} className="rounded-circle avatar-border " alt="Reham.sa" width="42" height="42" />
+                        <img src={`${process.env.imgUrl}/${user.image}`} className="rounded-circle avatar-border " alt="avatar" width="42" height="42" />
                       </div>
                       <div className="col"><div className="d-flex text-truncate">
                         <h6 className="col pl-0 pr-0 mt-1 mb-0 text-truncate ">{user.name}</h6>

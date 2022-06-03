@@ -131,7 +131,8 @@ namespace core3api.Controllers.v1
         public IActionResult SendMessageToId([FromBody] VCreateMessage data, long userId)
         {
             long currentId = User.GetUserId();
-           
+            if (data.Content.Length > 60)
+                return Ok();
             var user = _userService.SendMessagesById(data, currentId, userId);
             if (user.Result == false)
                 return NotFound();

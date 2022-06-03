@@ -66,26 +66,26 @@ namespace core3api
             services.AddIdentityServices(Configuration);
             services.AddSignalR();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Zawag API",
-                    Version = "v1",
-                    Description = "Description for the API goes here.",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Raouf Grera",
-                        Email = string.Empty,
-                        Url = new Uri("https://libyacv.com/"),
-                    },
-                });
-            });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo
+            //    {
+            //        Title = "Zawag API",
+            //        Version = "v1",
+            //        Description = "Description for the API goes here.",
+            //        Contact = new OpenApiContact
+            //        {
+            //            Name = "Raouf Grera",
+            //            Email = string.Empty,
+            //            Url = new Uri("https://libyacv.com/"),
+            //        },
+            //    });
+            //});
 
-            services.AddSpaStaticFiles(config =>
-            {
-                config.RootPath = "dist";
-            });
+            //services.AddSpaStaticFiles(config =>
+            //{
+            //    config.RootPath = "dist";
+            //});
 
 
             //  services.AddCors();
@@ -127,7 +127,7 @@ namespace core3api
 //RequestPath = new PathString("/wwwroot/StaticFiles"),
                 OnPrepareResponse = ctx =>
                 {
-                    ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+                    ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "https://myletter.app");
                     ctx.Context.Response.Headers.Append("Access-Control-Allow-Headers",
                       "*");
                 },
@@ -155,6 +155,13 @@ namespace core3api
                 .WithOrigins("http://localhost:3000", "https://localhost:3000"));//                    .WithOrigins("https://localhost:3000"));
 
                 app.UseCors("AllowAll");
+
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Zomato API V1");
+                    c.RoutePrefix = "";
+                });
             }
             app.UseCors(x => x.AllowAnyHeader()
                     .AllowAnyMethod()
@@ -163,15 +170,6 @@ namespace core3api
             app.UseCors("AllowAll");
 
 
-
-
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Zomato API V1");
-                c.RoutePrefix = "";
-            });
  
             app.UseHttpsRedirection();
 

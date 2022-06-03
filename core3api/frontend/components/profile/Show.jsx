@@ -157,7 +157,7 @@ function Show(props) {
 
 
 						<div className="card h-100 shadow-sm">
-							<div className="text-center card-bg" href={"/profile/" + userData.id}>
+							<div className={"text-center p-2 " + (userData.country ? userData.country : "card-bg")} href={"/profile/" + userData.id}>
 
 								<div className='tile portrait content-card incomplete'>
 									<div className='fieldset'>
@@ -182,7 +182,7 @@ function Show(props) {
 									<div className='stamp-img'>
 
 									</div>
-									LY
+									{(userData.country ? userData.country.toUpperCase() : "LY")}
 								</div>
 							</div>
 

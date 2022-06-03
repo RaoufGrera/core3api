@@ -31,15 +31,23 @@ function ModalMessage(props) {
   const [count, setCount] = React.useState(0);
   const pattern = /[\u0600-\u06FF\u0750-\u077F]/;
 
+  const [country, setCountry] = useState("LY");
   const [showModalMessage, setShowModalMessage] = useState(false);
   const [secret, SetSecret] = useState(getRandomInt(10));
+  const [ok, setOk] = useState(true);
 
   const [stamp, setStamp] = useState("/Stamp/deafult.png");
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
 
-
+  useEffect(() => {
+    if (user == null) {
+      const thisUser = accountService.accountValue;
+      if (thisUser != null)
+        setCountry(thisUser.country.toUpperCase())
+    }
+  }, []);
   const changeStamp = (stamp) => {
     setStamp(stamp)
 
@@ -87,7 +95,14 @@ function ModalMessage(props) {
     setMessageText(e.target.value)
     var matches = e.target.value.match(/\S+/g);
     //  return ;
-    setCount(matches ? matches.length : 0)
+    setCount(matches ? matches.length : 0);
+    if (matches == null) {
+      setOk(true);
+      return
+    }
+    setOk(matches.length > 10 ? false : true);
+
+
 
   }
 
@@ -115,7 +130,7 @@ function ModalMessage(props) {
               </div>
 
               <div>
-                <button onClick={handelChange} type="button" className="btn btn-warning ml-2 btn-120">
+                <button onClick={handelChange} disabled={ok} type="button" className="btn btn-warning ml-2 btn-120">
                   <i className="icon-send mr-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-send" viewBox="0 0 16 16">
                     <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"></path>
                   </svg></i>
@@ -129,7 +144,7 @@ function ModalMessage(props) {
           <div dir="rtl" className="d-flex pt-2 px-1 align-items-center">
             {(user == null) &&
               <div className="d-flex align-items-center px-2 mt-n2">
-                <div lang='ar' className="stamp-header-one"><div className="stamp-img"></div>LY</div>
+                <div lang='ar' className="stamp-header-one"><div className="stamp-img"></div>{country}</div>
               </div>
             }
             {(user != null) &&
@@ -150,7 +165,7 @@ function ModalMessage(props) {
             </div>
           </div>
           <div className='center f-13'>
-            <span className='stmsg'>{t('number_words')} : <span>{count}</span></span></div>
+            <span className='stmsg'>{t('number_words')} : <span>{count} / 10</span></span></div>
           <form className='form-msg' onSubmit={handleSubmit(onSubmit)}>
             <fieldset className='fade style-list'>
 

@@ -281,9 +281,9 @@ const App = ({ Component, pageProps }) => {
 
                 <Alert />
                 <ToastContainer
-                    position="bottom-left"
-                    autoClose={3000}
-                    hideProgressBar={false}
+                    position="bottom-center"
+                    autoClose={1200}
+                    hideProgressBar={true}
                     newestOnTop
                     closeOnClick
                     rtl={false}
