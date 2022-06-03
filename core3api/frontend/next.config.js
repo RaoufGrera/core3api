@@ -17,6 +17,11 @@ module.exports = {
             ? 'https://localhost:5001/hubs' // development api
             : 'https://api.myletter.app/hubs', // production api
 
+        facebook: process.env.NODE_ENV === 'development'
+            ? '380136030736866'
+            : '527949172355502',
+
+
 
         imgUrl: process.env.NODE_ENV === 'development'
             ? 'https://localhost:5001/StaticFiles/Images' // development api

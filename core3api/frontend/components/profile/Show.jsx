@@ -182,7 +182,7 @@ function Show(props) {
 									<div className='stamp-img'>
 
 									</div>
-									{(userData.country ? userData.country.toUpperCase() : "LY")}
+									{(userData.country) ? userData.country.toUpperCase() : "LY"}
 								</div>
 							</div>
 

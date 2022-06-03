@@ -75,7 +75,7 @@ function Card(props) {
             </div>
 
 
-            <div className="stamp-header" lang="ar"><div className="stamp-img"></div>{senderCountry.toUpperCase()}</div>
+            <div className="stamp-header" lang="ar"><div className="stamp-img"></div>{(senderCountry) ? senderCountry.toUpperCase() : LY}</div>
 
             <div className="p-3 pb-0"><p className="text-black-100 fw-bold ">{isPublic ? senderName : t(senderName)}</p>
               <p className="text-black-50  rtl small mb-2" dir="rtl" >{t(ago)} {messageNumber} {t(messageAgo)}</p>

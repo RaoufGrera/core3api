@@ -1,6 +1,6 @@
 import { accountService } from '../_services';
 
-const facebookAppId = 380136030736866;
+const facebookAppId = process.env.facebook;
 
 export function initFacebookSdk() {
     return new Promise(resolve => {
