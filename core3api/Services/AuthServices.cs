@@ -226,7 +226,7 @@ namespace core3api.Services
                     Image = maleImagePath,
 
                   
-
+                    
 
                     //GenderId = "male",
                     Name = serStatus.name,
@@ -300,6 +300,7 @@ namespace core3api.Services
                 Name = user.Name,
                 UserName = user.UserName,
                 Token = ttt,
+                Country = user.CountryId,
                 Gender = user.GenderId,
                 Image = user.Image
 
