@@ -258,7 +258,7 @@ function User(props) {
                         <div className='stamp-img'>
 
                         </div>
-                        {(user.country ? user.country.toUpperCase() : "LY")}
+                        {(user.country) ? user.country.toUpperCase() : "LY"}
                       </div>
                     </Link>
 
