@@ -29,7 +29,7 @@ namespace core3api
         }
 
         public IConfiguration Configuration { get; }
-
+     
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -70,12 +70,12 @@ namespace core3api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Zawag API",
+                    Title = "Myletter API",
                     Version = "v1",
-                    Description = "Description for the API goes here.",
+                    Description = "...",
                     Contact = new OpenApiContact
                     {
-                        Name = "Raouf Grera",
+                        Name = "RGH",
                         Email = string.Empty,
                         Url = new Uri("https://libyacv.com/"),
                     },
@@ -155,18 +155,19 @@ namespace core3api
                 .WithOrigins("http://localhost:3000", "https://localhost:3000"));//                    .WithOrigins("https://localhost:3000"));
 
                 app.UseCors("AllowAll");
-
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Zomato API V1");
-                    c.RoutePrefix = "";
-                });
             }
+            app.UseSwaggerAuthorized();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "myletter API V1");
+                c.RoutePrefix = "";
+            });
             app.UseCors(x => x.AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .WithOrigins("https://localhost", "https://myletter.app"));
+                    .WithOrigins("https://myletter.app"));//http s://localhost, 
             app.UseCors("AllowAll");
 
 
