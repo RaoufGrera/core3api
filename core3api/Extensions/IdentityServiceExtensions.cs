@@ -37,6 +37,8 @@ namespace core3api.Extensions
             services.AddIdentityCore<AppUser>(opt =>
             {
                 opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireDigit = false;
+
             })
                   .AddRoles<AppRole>()
                   .AddRoleManager<RoleManager<AppRole>>()
