@@ -35,7 +35,7 @@ function Home() {
         <div>
 
             <Head>
-                <title>{t('public_message')}</title>
+                <title>{t('box')}</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <div className='root-card'>
