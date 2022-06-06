@@ -15,6 +15,7 @@ namespace SystemData.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string NameEn { get; set; }
+        public DateTime CreationDate = DateTime.UtcNow;
       //  public int Order { get; set; }
       //  public string Image { get; set; }
     }

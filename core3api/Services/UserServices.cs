@@ -417,8 +417,9 @@ namespace core3api.Services
             Random rand = new Random();
             int toSkip = rand.Next(0, _context.PublicMessages.Count() );
             //if(toSkip == 0) return null;
-            var result = _context.PublicMessages.Where(i=> i.ArrivalDate < DateTime.UtcNow.AddDays(7)).Skip(toSkip)
-                .Take(2)
+            var result = _context.PublicMessages.Where(i=> i.ArrivalDate < DateTime.UtcNow.AddDays(7))//.Skip(toSkip)
+                  .OrderByDescending(i => i.Id)
+                .Take(8)
                 .Select(p=> new VMessage
                 {
                     Id = p.Id,
@@ -428,15 +429,16 @@ namespace core3api.Services
                     SenderName =p.Sender.Name,
                     SenderImage = p.Sender.Image,
                     SenderCountry = p.Sender.CountryId,
-                    Ago = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? "ago" : "before",
-                    MessageAgo = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? TimeAgoStatic(p.ArrivalDate).Item1 : TimeBeforeStatic(p.ArrivalDate).Item1,
-                    MessageNumber = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? TimeAgoStatic(p.ArrivalDate).Item2 : TimeBeforeStatic(p.ArrivalDate).Item2,
+                    Ago = (p.ArrivalDate < DateTime.UtcNow) ? "ago" : "before",
+                    MessageAgo = (p.ArrivalDate < DateTime.UtcNow) ? TimeAgoStatic(p.ArrivalDate).Item1 : TimeBeforeStatic(p.ArrivalDate).Item1,
+                    MessageNumber = (p.ArrivalDate < DateTime.UtcNow) ? TimeAgoStatic(p.ArrivalDate).Item2 : TimeBeforeStatic(p.ArrivalDate).Item2,
                 })
                 .ToList();
              toSkip = rand.Next(0, _context.Messages.Count());
 
-            var resultMessage = _context.Messages.Where(i=>!i.IsPublic && i.PublicMessageId == null && i.ArrivalDate < DateTime.UtcNow.AddDays(7)).Skip(toSkip)  // && i.ArrivalDate > DateTime.UtcNow.AddDays(3)
-                .Take(10)
+            var resultMessage = _context.Messages.Where(i=>!i.IsPublic && i.PublicMessageId == null && i.ArrivalDate < DateTime.UtcNow.AddDays(7))//.Skip(toSkip)  // && i.ArrivalDate > DateTime.UtcNow.AddDays(3)
+               .OrderByDescending(i => i.Id)
+                .Take(22)
                 .Select(p => new VMessage
                 {
                     
@@ -447,12 +449,13 @@ namespace core3api.Services
                     SenderName = "private_message" ,//p.Sender.Name,
                     SenderImage = p.Sender.Image,
                     SenderCountry = p.Sender.CountryId,
-                    Ago = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? "ago" : "before",
-                    MessageAgo = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? TimeAgoStatic(p.ArrivalDate).Item1 : TimeBeforeStatic(p.ArrivalDate).Item1,
-                    MessageNumber = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? TimeAgoStatic(p.ArrivalDate).Item2 : TimeBeforeStatic(p.ArrivalDate).Item2,
+                    Ago = (p.ArrivalDate < DateTime.UtcNow) ? "ago" : "before",
+                    MessageAgo = (p.ArrivalDate < DateTime.UtcNow) ? TimeAgoStatic(p.ArrivalDate).Item1 : TimeBeforeStatic(p.ArrivalDate).Item1,
+                    MessageNumber = (p.ArrivalDate < DateTime.UtcNow) ? TimeAgoStatic(p.ArrivalDate).Item2 : TimeBeforeStatic(p.ArrivalDate).Item2,
                 })
                 .ToList();
             result.AddRange(resultMessage);
+            result.OrderBy(x => Guid.NewGuid());
             return result;
         }
 
@@ -495,13 +498,13 @@ namespace core3api.Services
 
             List<Message> _messages = _context.Messages.Where(m => m.RecipientId == currentId 
             && m.DateRead == null
-            && m.ArrivalDate < DateTime.UtcNow.AddHours(2)
+            && m.ArrivalDate < DateTime.UtcNow
             ).ToList();
             if (_messages.Any())
             {
                 foreach (var message in _messages)
                 {
-                    message.DateRead = DateTime.UtcNow.AddHours(2);
+                    message.DateRead = DateTime.UtcNow;
 
                     Notification notification = new Notification
                     {
@@ -541,10 +544,10 @@ namespace core3api.Services
                         SenderName = p.Sender.Name,
                         SenderImage = p.Sender.Image,
                         SenderCountry = p.Sender.CountryId,
-                        Ago = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? "ago":"before",
-                        MessageAgo = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? TimeAgoStatic(p.ArrivalDate).Item1: TimeBeforeStatic(p.ArrivalDate).Item1,
-                        MessageNumber = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? TimeAgoStatic(p.ArrivalDate).Item2 : TimeBeforeStatic(p.ArrivalDate).Item2,
-                        Content = (p.ArrivalDate < DateTime.UtcNow.AddHours(2)) ? p.Content : "onway",
+                        Ago = (p.ArrivalDate < DateTime.UtcNow) ? "ago":"before",
+                        MessageAgo = (p.ArrivalDate < DateTime.UtcNow) ? TimeAgoStatic(p.ArrivalDate).Item1: TimeBeforeStatic(p.ArrivalDate).Item1,
+                        MessageNumber = (p.ArrivalDate < DateTime.UtcNow) ? TimeAgoStatic(p.ArrivalDate).Item2 : TimeBeforeStatic(p.ArrivalDate).Item2,
+                        Content = (p.ArrivalDate < DateTime.UtcNow) ? p.Content : "onway",
                         DateRead = p.DateRead
                     }
 
@@ -866,11 +869,11 @@ namespace core3api.Services
             UserLike result = _context.Likes.Where(i => i.LikedUserId == userId && i.SourceUserId == currentId).FirstOrDefault();
             if (result == null)
             {
-                _context.Likes.Add(new UserLike { LikedUserId = userId, SourceUserId = currentId, LikedDate = DateTime.UtcNow.AddHours(2) });
+                _context.Likes.Add(new UserLike { LikedUserId = userId, SourceUserId = currentId, LikedDate = DateTime.UtcNow });
             }
             else
             {
-                result.LikedDate = DateTime.UtcNow.AddHours(2);
+                result.LikedDate = DateTime.UtcNow;
             }
             Notification notification = new Notification
             {
