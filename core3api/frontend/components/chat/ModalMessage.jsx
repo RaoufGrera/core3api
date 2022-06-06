@@ -44,8 +44,11 @@ function ModalMessage(props) {
   useEffect(() => {
     if (user == null) {
       const thisUser = accountService.accountValue;
-      if (thisUser != null)
-        setCountry(thisUser.country.toUpperCase())
+      if (thisUser != null) {
+        if (thisUser.country != null)
+          setCountry(thisUser.country.toUpperCase())
+
+      }
     }
   }, []);
   const changeStamp = (stamp) => {
