@@ -9,7 +9,6 @@ import { useState, useEffect } from 'react';
 import { ModalMessage } from 'components/chat/ModalMessage';
 import { Link } from 'components/Link';
 import getConfig from 'next/config';
-import { ModalShowMessage } from 'components/box/ModalShowMessage';
 
 const { publicRuntimeConfig } = getConfig();
 
