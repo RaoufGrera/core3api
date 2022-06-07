@@ -5,7 +5,6 @@ import { useTranslation } from 'next-i18next'
 import { accountService } from '../../src/_services'
 import { ModalStamp } from './ModalStamp';
 import getConfig from 'next/config';
-import PinInput from 'react-pin-input';
 import { toast } from 'react-toastify';
 
 const { publicRuntimeConfig } = getConfig();
