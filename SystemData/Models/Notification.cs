@@ -15,7 +15,7 @@ namespace SystemData.Models
         public string Content { get; set; }
         public string Image { get; set; }
         
-                    public string SourceName { get; set; }
+        public string SourceName { get; set; }
 
         public AppUser AppUser { get; set; }
         public long AppUserId { get; set; }

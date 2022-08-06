@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace core3api.Model
+namespace MyLetterStable.Model
 {
     public class VMessage
     {
@@ -11,18 +11,21 @@ namespace core3api.Model
         public string SenderName { get; set; }
         public string SenderCountry { get; set; }
 
-        public string CountChar { get; set; }
-        public string Secret { get; set; }
+    
         public string Ago { get; set; }
 
-        public string SenderUsername { get; set; }
-        public string SenderImage { get; set; }
+        public string CountChar { get; set; }
+        public string Secret { get; set; }
         public long RecipientId { get; set; }
-        public bool IsPublic { get; set; }
-        public string PublicMessageId { get; set; }
 
         public string RecipientUsername { get; set; }
         public string RecipientPhotoUrl { get; set; }
+        public string SenderUsername { get; set; }
+        public string SenderImage { get; set; }
+        public bool IsPublic { get; set; }
+        public string PublicMessageId { get; set; }
+
+      
         public string Content { get; set; }
         public DateTime? DateRead { get; set; }
         public DateTime MessageSent { get; set; }

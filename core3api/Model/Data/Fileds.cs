@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace core3api.Model.Data
+namespace MyLetterStable.Model.Data
 {
     public class Fields
     {

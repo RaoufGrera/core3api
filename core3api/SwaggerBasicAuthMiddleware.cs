@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace core3api
+namespace MyLetterStable
 {
     public class SwaggerBasicAuthMiddleware
     {

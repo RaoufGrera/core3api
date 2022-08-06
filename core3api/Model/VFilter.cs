@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SystemData.Models;
 
-namespace core3api.Model
+namespace MyLetterStable.Model
 {
     public class VFilter
     {

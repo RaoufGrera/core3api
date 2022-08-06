@@ -1,4 +1,4 @@
-﻿using core3api.Model.Data;
+﻿using MyLetterStable.Model.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using SystemData;
 using SystemData.Models;
 
-namespace core3api.Seed
+namespace MyLetterStable.Seed
 {
     public static class SeedData
     {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using core3api.Helpers;
+using MyLetterStable.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace core3api.Services
+namespace MyLetterStable.Services
 {
     public class PresenceTracker
     {

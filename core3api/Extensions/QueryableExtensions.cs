@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using SystemData.Models;
 
-namespace core3api.Extensions
+namespace MyLetterStable.Extensions
 {
     public static class QueryableExtensions
     {

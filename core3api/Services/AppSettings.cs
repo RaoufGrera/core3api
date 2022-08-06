@@ -1,4 +1,4 @@
-﻿namespace core3api.Services
+﻿namespace MyLetterStable.Services
 {
     public class AppSettings
     {

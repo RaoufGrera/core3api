@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace core3api.Model
+namespace MyLetterStable.Model
 {
     public class VBoardMessage
     {

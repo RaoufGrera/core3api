@@ -1,6 +1,6 @@
 ﻿using System;
 using SystemData.Models;
-namespace core3api.Model
+namespace MyLetterStable.Model
 {
     public class VTest
     {

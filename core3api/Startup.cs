@@ -7,9 +7,9 @@ using SystemData;
 using Microsoft.OpenApi.Models;
 using System;
 using Microsoft.EntityFrameworkCore;
-using core3api.Services;
-using core3api.Extensions;
-using core3api.SignalR;
+using MyLetterStable.Services;
+using MyLetterStable.Extensions;
+using MyLetterStable.SignalR;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.SpaServices.Extensions;
@@ -18,7 +18,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 
-namespace core3api
+namespace MyLetterStable
 {
     public class Startup
     {
@@ -31,37 +31,14 @@ namespace core3api
         public IConfiguration Configuration { get; }
      
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
-
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowAll",
-            //          builder =>
-            //          {
-            //              builder //.WithOrigins("https://localhost:3000")
-            //              .AllowAnyOrigin()
-            //                     .AllowAnyHeader()
-            //                        .AllowAnyMethod();
-            //          });
-            //});
 
             services.AddControllersWithViews(options =>
     options.ModelBinderProviders.RemoveType<DateTimeModelBinderProvider>());
             services.AddDbContext<SystemContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddIdentity<AppUser, AppRole>()
-
-            //  .AddEntityFrameworkStores<SystemContext>()
-            //  .AddDefaultTokenProviders();
-
-
-
-            // services.AddControllers();
             services.AddApplicationServices(config: Configuration);
             services.AddIdentityServices(Configuration);
             services.AddSignalR();
@@ -82,21 +59,10 @@ namespace core3api
                 });
             });
 
-            //services.AddSpaStaticFiles(config =>
-            //{
-            //    config.RootPath = "dist";
-            //});
-
-
-            //  services.AddCors();
-            //  services.AddControllers();
-
-            //  services.AddMvc();
 
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
@@ -107,24 +73,10 @@ namespace core3api
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 
-            //app.UseCors(x => x
-            //.AllowAnyOrigin()
-            //.AllowAnyMethod()
-            //.AllowAnyHeader());
-            /* if (con != null) {
-
-              con.Database.EnsureDeleted();
-
-             con.Database.EnsureCreated();
-          }*/
-            //app.UseStaticFiles();
-
-            //  app.UseSpaStaticFiles();
+           
 
             app.UseStaticFiles(new StaticFileOptions()
             {
-                //FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/StaticFiles")),
-//RequestPath = new PathString("/wwwroot/StaticFiles"),
                 OnPrepareResponse = ctx =>
                 {
                     ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "https://myletter.app");
@@ -135,24 +87,12 @@ namespace core3api
             });
 
 
-            //app.UseCors(x => x
-            //   .AllowAnyMethod()
-            //   .AllowAnyHeader()
-            //   .WithOrigins("http://localhost:3000"));
-
-            // .SetIsOriginAllowed(origin => true)); // allow credentials
-
-
-
-
-
-
             if (env.IsDevelopment())
             {
                 app.UseCors(x => x.AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials()
-                .WithOrigins("http://localhost:3000", "https://localhost:3000"));//                    .WithOrigins("https://localhost:3000"));
+                .WithOrigins("http://localhost:3000", "https://localhost:3000"));
 
                 app.UseCors("AllowAll");
             }
@@ -167,27 +107,15 @@ namespace core3api
             app.UseCors(x => x.AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .WithOrigins("https://myletter.app"));//http s://localhost, 
+                    .WithOrigins("https://myletter.app"));
             app.UseCors("AllowAll");
 
 
  
             app.UseHttpsRedirection();
 
-
             app.UseRouting();
-          //  app.UseCors(x => x
-          //.AllowAnyMethod()
-          //.AllowAnyHeader()
-          // .WithOrigins("https://localhost:3000")
-          //.SetIsOriginAllowed(origin => true) // allow any origin
-          //                                    // .WithHeaders(HeaderNames.ContentType, HeaderNames.Accept)
-          //                                    // .AllowAnyOrigin()
-          //.AllowCredentials()
-          //); // allow credentials
-
-      
-
+     
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -199,15 +127,7 @@ namespace core3api
 
             });
 
-            //app.UseSpa(spa =>
-            //{
-
-            //    if (env.IsDevelopment())
-            //    {
-            //        spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
-            //    }
-            //});
-
+  
 
 
 

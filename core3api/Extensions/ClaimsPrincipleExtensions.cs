@@ -1,14 +1,13 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace core3api.Extensions
+namespace MyLetterStable.Extensions
 {
     public static class ClaimsPrincipleExtensions
     {
         public static string GetUsername(this ClaimsPrincipal user)
         {
-            var r = user.FindFirst(JwtRegisteredClaimNames.Name)?.Value;
-            return r;
+            return user.FindFirst(JwtRegisteredClaimNames.Name)?.Value;
         }
 
         public static int GetUserId(this ClaimsPrincipal user)

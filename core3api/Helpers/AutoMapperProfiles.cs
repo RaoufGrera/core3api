@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
-using core3api.Model;
-using core3api.Extensions;
+using MyLetterStable.Model;
+using MyLetterStable.Extensions;
 using AutoMapper;
 using SystemData.Models;
 
-namespace core3api.Helpers
+namespace MyLetterStable.Helpers
 {
     public class AutoMapperProfiles : Profile
     {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using SystemData.Models;
 using SystemData;
 
-namespace core3api
+namespace MyLetterStable
 {
     public class Task1 : IJob
     {

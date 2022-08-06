@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace core3api.SignalR
+namespace MyLetterStable.SignalR
 {
     public class SignalHub : Hub
     {

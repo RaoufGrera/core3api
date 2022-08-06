@@ -1,15 +1,15 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using core3api.Extensions;
-using core3api.Helpers;
+using MyLetterStable.Extensions;
+using MyLetterStable.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SystemData;
 using SystemData.Models;
 
-namespace core3api.Services
+namespace MyLetterStable.Services
 {
     [Authorize]
     public class PresenceHub : Hub

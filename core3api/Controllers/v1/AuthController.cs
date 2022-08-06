@@ -5,9 +5,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using core3api.Enums;
-using core3api.Services;
-using core3api.Model;
+using MyLetterStable.Enums;
+using MyLetterStable.Services;
+using MyLetterStable.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -22,9 +22,9 @@ using SystemData.Models;
 using System.IO;
 using System.Net.Http.Headers;
 using HeyRed.Mime;
-using core3api.Extensions;
+using MyLetterStable.Extensions;
 
-namespace core3api.Controllers.v1
+namespace MyLetterStable.Controllers.v1
 {
     [Route("v1/[controller]")]
     public class AuthController : ControllerBase
@@ -62,33 +62,8 @@ namespace core3api.Controllers.v1
 
         }
 
-        [AllowAnonymous]
-        [HttpPost("fbAuth")]
-        public IActionResult FBAuth([FromBody] VUser nextUser)
-        {
+    
 
-            var user = _authService.FBAuth(nextUser);
-
-            if (user.Result == null)
-                return BadRequest(new { message = "خطاء اثناء تسجيل الدخول" });
-
-            return Ok(user.Result);
-
-        }
-        [HttpPost("login")]
-        public async Task<ActionResult<VUser>> Login()
-        {
-            var user = await mUserManager.Users
-                .SingleOrDefaultAsync(x => x.UserName == "sara");
-
-            if (user == null) return Unauthorized("Invalid username");
-
-
-            var result = _authService.CreateToken(user);
-
-
-            return Ok(result.Result);
-        }
 
         [AllowAnonymous]
         [HttpPost("googleAuth")]

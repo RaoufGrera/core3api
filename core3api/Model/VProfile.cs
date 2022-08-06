@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace core3api.Model
+namespace MyLetterStable.Model
 {
     public class VProfile
     {

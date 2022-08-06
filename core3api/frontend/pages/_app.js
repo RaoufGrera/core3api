@@ -182,7 +182,7 @@ const App = ({ Component, pageProps }) => {
         //const loggedIn = localStorage.getItem("user");
         const url = router.asPath
         // redirect to login page if accessing a private page and not logged in 
-        const publicPaths = ['/', '/en', '/login', '/privacy'];
+        const publicPaths = ['/', '/en', '/login', '/privacy', '/test'];
         //const arr = arr.map(function(e) {return router.locale + e});
 
 

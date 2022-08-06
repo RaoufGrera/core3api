@@ -2,7 +2,7 @@
 using Quartz.Impl;
 using System;
 
-namespace core3api
+namespace MyLetterStable
 {
     public class SchedulerTask
     {

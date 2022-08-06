@@ -1,4 +1,4 @@
-﻿namespace core3api.Model.UserData
+﻿namespace MyLetterStable.Model.UserData
 {
     public class ProfileCategory
     {

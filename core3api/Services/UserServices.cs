@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using core3api.Extensions;
-using core3api.Model;
-using core3api.SignalR;
+using MyLetterStable.Extensions;
+using MyLetterStable.Model;
+using MyLetterStable.SignalR;
 using HeyRed.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using SystemData;
 using SystemData.Models;
 
-namespace core3api.Services
+namespace MyLetterStable.Services
 {
 
     public interface IUserServices
@@ -811,7 +811,7 @@ namespace core3api.Services
             {
                 groupMessage = new GroupMessages();
                 groupMessage.FirstUserId = currentId;
-                groupMessage.SecondUserId = userData.Id;
+                groupMessage.SecondUserId = UserId;
                 groupMessage.LastUpdated = DateTime.UtcNow.AddHours(3);
                 _context.GroupMessages.Add(groupMessage);
             }

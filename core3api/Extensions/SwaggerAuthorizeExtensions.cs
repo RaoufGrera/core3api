@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace core3api.Extensions
+namespace MyLetterStable.Extensions
 {
     public static class SwaggerAuthorizeExtensions
     {

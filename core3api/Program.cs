@@ -1,4 +1,4 @@
-using core3api.Seed;
+using MyLetterStable.Seed;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +9,7 @@ using System;
 using SystemData;
 using SystemData.Models;
 
-namespace core3api
+namespace MyLetterStable
 {
     public class Program
     {

@@ -2,8 +2,8 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
-using core3api.Model;
-using core3api.Services;
+using MyLetterStable.Model;
+using MyLetterStable.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using SystemData;
 using SystemData.Models;
 
-namespace core3api.Extensions
+namespace MyLetterStable.Extensions
 {
     public static class IdentityServiceExtensions
     {
@@ -79,11 +79,7 @@ namespace core3api.Extensions
                     facebookOptions.AppSecret = config["FacebookAuthSettings:AppSecret"];
                 });
 
-            services.AddAuthorization(opt =>
-            {
-                opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
-            });
+          
 
             return services;
         }

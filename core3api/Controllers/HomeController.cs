@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace core3api.Controllers
+namespace MyLetterStable.Controllers
 {
     public class HomeController : Controller
     {

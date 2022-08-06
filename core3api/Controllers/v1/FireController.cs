@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SystemData;
-namespace core3api.Controllers.v1
+namespace MyLetterStable.Controllers.v1
 {
 
     [Route("v1/[controller]")]

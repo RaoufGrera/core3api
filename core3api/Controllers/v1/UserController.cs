@@ -1,7 +1,7 @@
-﻿using core3api.Extensions;
-using core3api.Model;
-using core3api.Model.Data;
-using core3api.Services;
+﻿using MyLetterStable.Extensions;
+using MyLetterStable.Model;
+using MyLetterStable.Model.Data;
+using MyLetterStable.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using SystemData;
 using SystemData.Models;
 
-namespace core3api.Controllers.v1
+namespace MyLetterStable.Controllers.v1
 {
     [Route("v1/[controller]")]
     public class UserController : Controller
@@ -43,7 +43,7 @@ namespace core3api.Controllers.v1
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet] //done chat
         [Route("chat/{userId}/{msgId}")]
 
         public VMessage getMessage(long userId,string msgId)
@@ -58,7 +58,7 @@ namespace core3api.Controllers.v1
 
 
         [Authorize]
-        [HttpGet]
+        [HttpGet] //que
         [Route("chat/ask/{askId}")]
 
         public VQuestion getAskById(string askId)
@@ -68,7 +68,7 @@ namespace core3api.Controllers.v1
             return open;
         }
         [Authorize]
-        [HttpGet]
+        [HttpGet] // que
         [Route("chat/asks/{id}")]
 
         public IActionResult getAsks(long id)
@@ -78,7 +78,7 @@ namespace core3api.Controllers.v1
             return Ok(user);
         }
         [Authorize]
-        [HttpPost]
+        [HttpPost]// que
         [Route("chat/answer/{askId}")]
         public IActionResult AnswerQuestionToId([FromBody] VQuestion data, string askId)
         {

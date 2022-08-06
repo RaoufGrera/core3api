@@ -13,14 +13,19 @@ namespace SystemData.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Id { get; set; }
+        [Required,MaxLength(70)]
         public string Name { get; set; }
+
+        [Required, MaxLength(70)]
         public string NameEn { get; set; }
+
         public DateTime CreationDate = DateTime.UtcNow;
       //  public int Order { get; set; }
       //  public string Image { get; set; }
     }
 
-    public class Stamp : GeneralTable {  public string Image { get; set; }
+    public class Stamp : GeneralTable {  
+        public string Image { get; set; }
         public string Title { get; set; }
     }
 
@@ -54,9 +59,6 @@ namespace SystemData.Models
     public class Smoking : GeneralTable { }
     public class Work : GeneralTable { }
     // public class WantKids : GeneralTable { }
-
-
-
 
      public class Hobbies : GeneralTable { public ICollection<UserHobbies> UserHobbies { get; set; } }
 

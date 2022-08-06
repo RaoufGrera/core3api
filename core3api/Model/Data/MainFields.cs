@@ -1,4 +1,4 @@
-﻿namespace core3api.Model.Data
+﻿namespace MyLetterStable.Model.Data
 {
     public class MainFields
     {

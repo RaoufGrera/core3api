@@ -5,9 +5,7 @@ namespace SystemData.Models
     
     public class Connection
     {
-        public Connection()
-        {
-        }
+      
 
         public Connection(string connectionId, string username)
         {
